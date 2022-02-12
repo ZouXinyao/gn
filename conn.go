@@ -45,7 +45,7 @@ func (c *Conn) GetBuffer() *Buffer {
 // Read 读取数据
 func (c *Conn) Read() error {
 	c.lastReadTime = time.Now()
-	fd := int(c.GetFd())
+	fd := c.GetFd()
 	for {
 		err := c.buffer.ReadFromFD(fd)
 		if err != nil {
@@ -65,7 +65,7 @@ func (c *Conn) Read() error {
 
 // Write 写入数据
 func (c *Conn) Write(bytes []byte) (int, error) {
-	return syscall.Write(int(c.fd), bytes)
+	return syscall.Write(syscall.Handle(c.fd), bytes)
 }
 
 // Close 关闭连接

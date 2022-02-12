@@ -35,10 +35,10 @@ func (b *Buffer) GetBuf() []byte {
 }
 
 // ReadFromFD 从文件描述符里面读取数据
-func (b *Buffer) ReadFromFD(fd int) error {
+func (b *Buffer) ReadFromFD(fd int32) error {
 	b.reset()
 
-	n, err := syscall.Read(fd, b.buf[b.end:])
+	n, err := syscall.Read(syscall.Handle(fd), b.buf[b.end:])
 	if err != nil {
 		return err
 	}
